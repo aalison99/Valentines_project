@@ -3,42 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine?❤️❤️❤️</title>
+    <title>For My Favorite Person ❤️</title>
     <style>
+        :root {
+            --pink-light: #fdf2f8;
+            --pink-medium: #fbcfe8;
+            --pink-dark: #9d174d;
+            --accent: #ec4899;
+        }
+
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #fbcfe8;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
+            background: radial-gradient(circle, #fbcfe8 0%, #f9a8d4 100%);
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            color: var(--pink-dark);
+        }
+
+        /* Floating Hearts Background */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
             text-align: center;
-            z-index: 20; /* Keep the main UI above the background spam */
-            pointer-events: none; /* Let clicks pass through container if needed */
-        }
-        
-        #main-content * {
-            pointer-events: auto; /* Re-enable clicks for actual buttons */
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 30px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border: 2px solid white;
         }
 
         h1 {
-            color: #9d174d;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 20px;
         }
 
-        .gif-container {
-            height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+        /* Polaroid Slideshow Style */
+        .polaroid {
+            width: 280px;
+            background: white;
+            padding: 15px 15px 50px 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 5px;
+            transform: rotate(-2deg);
+            margin: 0 auto 30px;
+            transition: 0.3s;
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .slideshow-container {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .slides {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
         }
 
         .buttons {
@@ -52,11 +94,13 @@
             background-color: #22c55e;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 18px;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+            transition: 0.2s;
             z-index: 100;
         }
 
@@ -64,150 +108,171 @@
             background-color: #ef4444;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 18px;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: 0.1s ease-in-out;
-            position: relative;
             z-index: 100;
+            transition: 0.1s;
+        }
+
+        /* Final Photo Grid */
+        .memory-wall {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            width: 90%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        .memory-wall img {
+            width: 100%;
+            border: 5px solid white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .fake-yes {
             position: absolute;
-            background-color: #22c55e;
+            background: #22c55e;
             color: white;
-            border: none;
             padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 18px;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
             cursor: pointer;
-            animation: popIn 0.3s ease-out forwards;
+            z-index: 5;
+            animation: popIn 0.3s forwards;
         }
 
-        @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        @keyframes popIn { 0% {transform: scale(0);} 100% {transform: scale(1);} }
     </style>
 </head>
 <body>
 
+    <div class="heart-bg" id="heart-bg"></div>
+
     <div class="container" id="main-content">
-        <h1 id="question">Will you be my Valentine?</h1>
+        <h1 id="question">Will you be my Valentine? ❤️</h1>
         
-        <div class="gif-container">
-            <img id="display-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1eXF4M2Z3OHB4eGZ4Z3R4eGZ4Z3R4eGZ4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/MDJ9IbxxvDUQM/giphy.gif" alt="Cute Cat" width="200">
+        <div class="polaroid">
+            <div class="slideshow-container">
+                <img class="slides" src="image1.jpg">
+                <img class="slides" src="image2.jpg">
+                <img class="slides" src="image3.jpg">
+                <img class="slides" src="image4.jpg">
+                <img class="slides" src="image5.jpg">
+                <img class="slides" src="image6.jpg">
+                <img class="slides" src="image7.jpg">
+                <img class="slides" src="image8.jpg">
+                <img class="slides" src="image9.jpg">
+            </div>
         </div>
 
         <div class="buttons">
-            <button id="yesBtn">Yes</button>
+            <button id="yesBtn">Yes!</button>
             <button id="noBtn">No</button>
         </div>
     </div>
 
     <script>
-        const phrases = [
-            "No", "Are you sure?", "Really sure??", "Are you positive?", 
-            "Pookie please...", "Just think about it!", 
-            "If you say no, I will be really sad...", "I will be very sad...", 
-            "I will be very very very sad...", "Ok fine, I will stop asking...", 
-            "Just kidding, PLEASE SAY YES", "You're breaking my heart ;(", 
-            "I'm gonna cry..."
-        ];
+        // 1. Create floating background hearts
+        const heartBg = document.getElementById('heart-bg');
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'absolute';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '110vh';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.opacity = Math.random();
+            heart.style.transition = `transform ${Math.random() * 3 + 2}s linear, opacity 2s`;
+            heartBg.appendChild(heart);
 
+            setTimeout(() => {
+                heart.style.transform = `translateY(-120vh)`;
+            }, 100);
+
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
+
+        // 2. Slideshow
+        let slideIndex = 0;
+        function showSlides() {
+            let slides = document.getElementsByClassName("slides");
+            for (let i = 0; i < slides.length; i++) slides[i].style.display = "none";
+            slideIndex++;
+            if (slideIndex > slides.length) slideIndex = 1;
+            slides[slideIndex-1].style.display = "block";
+            setTimeout(showSlides, 2500);
+        }
+        showSlides();
+
+        // 3. Logic
         let clickCount = 0;
-        let yesSize = 18;
-
-        const yesBtn = document.getElementById('yesBtn');
+        let yesSize = 1.2;
+        const phrases = ["No", "Are you sure?", "Really sure?", "Pookie please...", "Just think about it!", "I'll be so sad...", "You're breaking my heart!", "I'm gonna cry...", "PLEASE?", "I'll stop asking...", "JUST KIDDING!", "SAY YES!"];
+        
         const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
 
         noBtn.addEventListener('click', () => {
             clickCount++;
-
             if (clickCount >= 13) {
                 noBtn.style.display = 'none';
-                fillScreenWithYes();
+                fillScreen();
                 return;
             }
-
-            noBtn.innerText = phrases[clickCount] || "Please?";
+            noBtn.innerText = phrases[clickCount % phrases.length];
             noBtn.style.position = 'absolute';
+            
+            const yesRect = yesBtn.getBoundingClientRect();
+            let x, y, overlap = true;
+            while(overlap) {
+                x = Math.random() * (window.innerWidth - 100);
+                y = Math.random() * (window.innerHeight - 50);
+                if (!(x < yesRect.right && x + 100 > yesRect.left && y < yesRect.bottom && y + 50 > yesRect.top)) overlap = false;
+            }
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
 
-            moveButton();
-
-            yesSize += 20; 
-            yesBtn.style.fontSize = `${yesSize}px`;
-            yesBtn.style.padding = `${yesSize/2}px ${yesSize}px`;
+            yesSize += 0.3;
+            yesBtn.style.transform = `scale(${yesSize})`;
         });
 
-        function moveButton() {
-            const yesRect = yesBtn.getBoundingClientRect();
-            const padding = 20;
-            
-            let newX, newY;
-            let overlap = true;
-
-            while (overlap) {
-                newX = Math.floor(Math.random() * (window.innerWidth - noBtn.offsetWidth));
-                newY = Math.floor(Math.random() * (window.innerHeight - noBtn.offsetHeight));
-
-                const noRect = {
-                    left: newX,
-                    top: newY,
-                    right: newX + noBtn.offsetWidth,
-                    bottom: newY + noBtn.offsetHeight
-                };
-
-                const isOverlapping = !(
-                    noRect.right < yesRect.left - padding || 
-                    noRect.left > yesRect.right + padding || 
-                    noRect.bottom < yesRect.top - padding || 
-                    noRect.top > yesRect.bottom + padding
-                );
-
-                if (!isOverlapping) overlap = false;
-            }
-
-            noBtn.style.left = `${newX}px`;
-            noBtn.style.top = `${newY}px`;
-        }
-
-        function fillScreenWithYes() {
-            // Change the main title for dramatic effect
-            document.getElementById('question').innerText = "THERE IS NO ESCAPE! SAY YES! ❤️";
-            
-            // Create 50 fake "Yes" buttons randomly
-            for (let i = 0; i < 50; i++) {
+        function fillScreen() {
+            document.getElementById('question').innerText = "Look at us! You have to say Yes! 😍";
+            for(let i=0; i<30; i++) {
                 setTimeout(() => {
-                    const fakeBtn = document.createElement('button');
-                    fakeBtn.innerText = "Yes";
-                    fakeBtn.className = 'fake-yes';
-                    
-                    const x = Math.random() * (window.innerWidth - 80);
-                    const y = Math.random() * (window.innerHeight - 40);
-                    
-                    fakeBtn.style.left = `${x}px`;
-                    fakeBtn.style.top = `${y}px`;
-                    
-                    // All buttons should trigger the success screen
-                    fakeBtn.onclick = handleYesClick;
-                    
-                    document.body.appendChild(fakeBtn);
-                }, i * 50); // Staggered appearance for effect
+                    const b = document.createElement('button');
+                    b.innerText = "Yes";
+                    b.className = 'fake-yes';
+                    b.style.left = Math.random() * 90 + 'vw';
+                    b.style.top = Math.random() * 90 + 'vh';
+                    b.onclick = handleYes;
+                    document.body.appendChild(b);
+                }, i * 100);
             }
         }
 
-        function handleYesClick() {
+        function handleYes() {
             document.getElementById('main-content').innerHTML = `
-                <h1 style="font-size: 3rem;">Hehehe, I knew it! ❤️</h1>
-                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmFpam9mcWxpY3p3MHBiMnhhM2VlemF5aWdnYmNlY2hobnJuMHAxaSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qKQQUKSSbWBkO2V3KX/giphy.gif" alt="Success" width="300">
+                <h1>YAY! I knew you'd say yes! ❤️</h1>
+                <p>To many more adventures together...</p>
+                <div class="memory-wall">
+                    <img src="image1.jpg"> <img src="image2.jpg">
+                    <img src="image3.jpg"> <img src="image4.jpg">
+                    <img src="image5.jpg"> <img src="image6.jpg">
+                    <img src="image7.jpg"> <img src="image8.jpg">
+                    <img src="image9.jpg">
+                </div>
             `;
-            // Remove all the extra background buttons
-            document.querySelectorAll('.fake-yes').forEach(btn => btn.remove());
+            document.querySelectorAll('.fake-yes').forEach(b => b.remove());
+            document.body.style.overflow = "auto";
         }
-
-        yesBtn.addEventListener('click', handleYesClick);
+        yesBtn.addEventListener('click', handleYes);
     </script>
 </body>
 </html>
