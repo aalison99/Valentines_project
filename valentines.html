@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f7b9c4; /* Matching the pink background from your video */
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #8b1c31; /* Matching the dark red text */
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .gif-container {
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .gif-container img {
+            max-width: 230px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #yesBtn {
+            background-color: #4caf50; /* Exact green */
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.1s ease;
+        }
+
+        #noBtn {
+            background-color: #f44336; /* Exact red */
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-content">
+        <h1 id="header-text">Will you be my Valentine?</h1>
+        
+        <div class="gif-container">
+            <img id="display-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3ZkbmM0NmN3YjR3eGZ4Z3R4eGZ4Z3R4eGZ4Z3R4eGZ4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/v9WvW6iR8wHk4/giphy.gif" alt="Bugcat Waving">
+        </div>
+
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const phrases = [
+            "No",
+            "Are you sure?",
+            "Really sure??",
+            "Are you positive?",
+            "Pookie please...",
+            "Just think about it!",
+            "If you say no, I will be really sad...",
+            "I will be very sad...",
+            "I will be very very very sad..."
+        ];
+
+        let phraseIndex = 0;
+        let yesFontSize = 20;
+
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const gif = document.getElementById('display-gif');
+
+        noBtn.addEventListener('click', () => {
+            // Update to a "sad/pleading" Capoo when No is clicked
+            gif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZidW94bmRwdXF6OHR4ZzR6NHR4ZzR6NHR4ZzR6NHR4ZzR6NHZpZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/v9WvW6iR8wHk4/giphy.gif";
+
+            // Update No button text
+            phraseIndex++;
+            if (phraseIndex < phrases.length) {
+                noBtn.innerText = phrases[phraseIndex];
+            } else {
+                noBtn.style.display = "none"; // Final state: No button gone
+            }
+
+            // Exponential growth of Yes button as seen in your video
+            yesFontSize += 35;
+            yesBtn.style.fontSize = `${yesFontSize}px`;
+            yesBtn.style.padding = `${yesFontSize/2}px ${yesFontSize}px`;
+
+            // Massive takeover once it fills the screen
+            if(yesFontSize > 150) {
+                yesBtn.style.position = "fixed";
+                yesBtn.style.top = "0";
+                yesBtn.style.left = "0";
+                yesBtn.style.width = "100vw";
+                yesBtn.style.height = "100vh";
+                yesBtn.style.zIndex = "100";
+                yesBtn.style.borderRadius = "0";
+                yesBtn.style.display = "flex";
+                yesBtn.style.alignItems = "center";
+                yesBtn.style.justifyContent = "center";
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            document.body.innerHTML = `
+                <div class="container">
+                    <h1 style="font-size: 3rem; color: #8b1c31;">Okie Yay!!! ❤️</h1>
+                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnJ2Z2NxeGZ4Z3R4eGZ4Z3R4eGZ4Z3R4eGZ4Z3R4eGZ4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/108M2qNEp4kV7A/giphy.gif" width="300">
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>

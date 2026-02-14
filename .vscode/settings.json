@@ -1,0 +1,11 @@
+{
+    "C_Cpp.default.compilerPath": "/Users/alisonbrown/Documents/DSA/main.dSYM",
+    "zencoder.enableRepoIndexing": true,
+    "C_Cpp.errorSquiggles": "disabled",
+    "launch": {
+
+        "editor.autoClosingBrackets": false,
+        "editor.suggestOnTriggerCharacters": false,
+    },
+    "editor.inlineSuggest.showToolbar": "never"
+}

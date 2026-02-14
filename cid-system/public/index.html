@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criminal Investigation Database System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">CID System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-section="dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="police">Police Officers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="criminals">Criminals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="crimes">Crime Records</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="victims">Victims</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="witnesses">Witnesses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="investigations">Investigations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="court-cases">Court Cases</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <h2>Dashboard</h2>
+            <div class="row mt-4">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">Police Officers</div>
+                        <div class="card-body">
+                            <h5 class="card-title" id="police-count">Loading...</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-danger mb-3">
+                        <div class="card-header">Criminals</div>
+                        <div class="card-body">
+                            <h5 class="card-title" id="criminal-count">Loading...</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-warning mb-3">
+                        <div class="card-header">Crime Records</div>
+                        <div class="card-body">
+                            <h5 class="card-title" id="crime-count">Loading...</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-header">Court Cases</div>
+                        <div class="card-body">
+                            <h5 class="card-title" id="case-count">Loading...</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Recent Crime Records
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Type</th>
+                                            <th>Date</th>
+                                            <th>Location</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recent-crimes">
+                                        <tr>
+                                            <td colspan="4" class="text-center">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Ongoing Investigations
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Crime ID</th>
+                                            <th>Officer</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ongoing-investigations">
+                                        <tr>
+                                            <td colspan="4" class="text-center">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Police Officers Section -->
+        <section id="police" class="section">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Police Officers</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#policeModal">Add New</button>
+            </div>
+            <div class="table-responsive mt-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Rank</th>
+                            <th>Department</th>
+                            <th>Contact</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="police-table">
+                        <tr>
+                            <td colspan="6" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Criminals Section -->
+        <section id="criminals" class="section">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Criminals</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#criminalModal">Add New</button>
+            </div>
+            <div class="table-responsive mt-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Address</th>
+                            <th>Crime History</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="criminal-table">
+                        <tr>
+                            <td colspan="7" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Crime Records Section -->
+        <section id="crimes" class="section">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Crime Records</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crimeModal">Add New</button>
+            </div>
+            <div class="table-responsive mt-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Date & Time</th>
+                            <th>Location</th>
+                            <th>Criminal ID</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="crime-table">
+                        <tr>
+                            <td colspan="6" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Victims Section -->
+        <section id="victims" class="section">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Victims</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#victimModal">Add New</button>
+            </div>
+            <div class="table-responsive mt-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                            <th>Crime ID</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="victim-table">
+                        <tr>
+                            <td colspan="7" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Witnesses Section -->
+        <section id="witnesses" class="section">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Witnesses</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#witnessModal">Add New</button>
+            </div>
+            <div class="table-responsive mt-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Statement</th>
+                            <th>Crime ID</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="witness-table">
+                        <tr>
+                            <td colspan="6" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Investigations Section -->
+        <section id="investigations" class="section">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Investigations</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#investigationModal">Add New</button>
+            </div>
+            <div class="table-responsive mt-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Crime ID</th>
+                            <th>Officer ID</th>
+                            <th>Status</th>
+                            <th>Evidence Details</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="investigation-table">
+                        <tr>
+                            <td colspan="6" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Court Cases Section -->
+        <section id="court-cases" class="section">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Court Cases</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courtCaseModal">Add New</button>
+            </div>
+            <div class="table-responsive mt-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Crime ID</th>
+                            <th>Status</th>
+                            <th>Lawyer</th>
+                            <th>Hearing Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="court-case-table">
+                        <tr>
+                            <td colspan="6" class="text-center">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modals for adding/editing data -->
+    <!-- Police Officer Modal -->
+    <div class="modal fade" id="policeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="policeModalLabel">Add Police Officer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="policeForm">
+                        <input type="hidden" id="policeId">
+                        <div class="mb-3">
+                            <label for="policeOfficerId" class="form-label">Officer ID</label>
+                            <input type="text" class="form-control" id="policeOfficerId" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="policeName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="policeName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="policeRank" class="form-label">Rank</label>
+                            <input type="text" class="form-control" id="policeRank" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="policeDepartment" class="form-label">Department</label>
+                            <input type="text" class="form-control" id="policeDepartment" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="policeContact" class="form-label">Contact Number</label>
+                            <input type="text" class="form-control" id="policeContact" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="savePolice">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Criminal Modal -->
+    <div class="modal fade" id="criminalModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="criminalModalLabel">Add Criminal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="criminalForm">
+                        <input type="hidden" id="criminalIdHidden">
+                        <div class="mb-3">
+                            <label for="criminalId" class="form-label">Criminal ID</label>
+                            <input type="text" class="form-control" id="criminalId" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="criminalName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="criminalName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="criminalAge" class="form-label">Age</label>
+                            <input type="number" class="form-control" id="criminalAge" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="criminalGender" class="form-label">Gender</label>
+                            <select class="form-control" id="criminalGender" required>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="criminalAddress" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="criminalAddress" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="crimeHistory" class="form-label">Crime History</label>
+                            <textarea class="form-control" id="crimeHistory" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveCriminal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Crime Record Modal -->
+    <div class="modal fade" id="crimeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crimeModalLabel">Add Crime Record</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="crimeForm">
+                        <input type="hidden" id="crimeIdHidden">
+                        <div class="mb-3">
+                            <label for="crimeId" class="form-label">Crime ID</label>
+                            <input type="text" class="form-control" id="crimeId" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="crimeType" class="form-label">Crime Type</label>
+                            <input type="text" class="form-control" id="crimeType" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="crimeDateTime" class="form-label">Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="crimeDateTime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="crimeLocation" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="crimeLocation" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="crimeDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="crimeDescription" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="crimeCriminalId" class="form-label">Criminal ID</label>
+                            <select class="form-control" id="crimeCriminalId" required>
+                                <option value="">Select Criminal</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveCrime">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Other modals for Victim, Witness, Investigation, and Court Case would be similar -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

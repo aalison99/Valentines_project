@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?❤️❤️❤️</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fbcfe8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 20; /* Keep the main UI above the background spam */
+            pointer-events: none; /* Let clicks pass through container if needed */
+        }
+        
+        #main-content * {
+            pointer-events: auto; /* Re-enable clicks for actual buttons */
+        }
+
+        h1 {
+            color: #9d174d;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .gif-container {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #yesBtn {
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            z-index: 100;
+        }
+
+        #noBtn {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.1s ease-in-out;
+            position: relative;
+            z-index: 100;
+        }
+
+        .fake-yes {
+            position: absolute;
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            animation: popIn 0.3s ease-out forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-content">
+        <h1 id="question">Will you be my Valentine?</h1>
+        
+        <div class="gif-container">
+            <img id="display-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1eXF4M2Z3OHB4eGZ4Z3R4eGZ4Z3R4eGZ4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/MDJ9IbxxvDUQM/giphy.gif" alt="Cute Cat" width="200">
+        </div>
+
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const phrases = [
+            "No", "Are you sure?", "Really sure??", "Are you positive?", 
+            "Pookie please...", "Just think about it!", 
+            "If you say no, I will be really sad...", "I will be very sad...", 
+            "I will be very very very sad...", "Ok fine, I will stop asking...", 
+            "Just kidding, PLEASE SAY YES", "You're breaking my heart ;(", 
+            "I'm gonna cry..."
+        ];
+
+        let clickCount = 0;
+        let yesSize = 18;
+
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+
+        noBtn.addEventListener('click', () => {
+            clickCount++;
+
+            if (clickCount >= 13) {
+                noBtn.style.display = 'none';
+                fillScreenWithYes();
+                return;
+            }
+
+            noBtn.innerText = phrases[clickCount] || "Please?";
+            noBtn.style.position = 'absolute';
+
+            moveButton();
+
+            yesSize += 20; 
+            yesBtn.style.fontSize = `${yesSize}px`;
+            yesBtn.style.padding = `${yesSize/2}px ${yesSize}px`;
+        });
+
+        function moveButton() {
+            const yesRect = yesBtn.getBoundingClientRect();
+            const padding = 20;
+            
+            let newX, newY;
+            let overlap = true;
+
+            while (overlap) {
+                newX = Math.floor(Math.random() * (window.innerWidth - noBtn.offsetWidth));
+                newY = Math.floor(Math.random() * (window.innerHeight - noBtn.offsetHeight));
+
+                const noRect = {
+                    left: newX,
+                    top: newY,
+                    right: newX + noBtn.offsetWidth,
+                    bottom: newY + noBtn.offsetHeight
+                };
+
+                const isOverlapping = !(
+                    noRect.right < yesRect.left - padding || 
+                    noRect.left > yesRect.right + padding || 
+                    noRect.bottom < yesRect.top - padding || 
+                    noRect.top > yesRect.bottom + padding
+                );
+
+                if (!isOverlapping) overlap = false;
+            }
+
+            noBtn.style.left = `${newX}px`;
+            noBtn.style.top = `${newY}px`;
+        }
+
+        function fillScreenWithYes() {
+            // Change the main title for dramatic effect
+            document.getElementById('question').innerText = "THERE IS NO ESCAPE! SAY YES! ❤️";
+            
+            // Create 50 fake "Yes" buttons randomly
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const fakeBtn = document.createElement('button');
+                    fakeBtn.innerText = "Yes";
+                    fakeBtn.className = 'fake-yes';
+                    
+                    const x = Math.random() * (window.innerWidth - 80);
+                    const y = Math.random() * (window.innerHeight - 40);
+                    
+                    fakeBtn.style.left = `${x}px`;
+                    fakeBtn.style.top = `${y}px`;
+                    
+                    // All buttons should trigger the success screen
+                    fakeBtn.onclick = handleYesClick;
+                    
+                    document.body.appendChild(fakeBtn);
+                }, i * 50); // Staggered appearance for effect
+            }
+        }
+
+        function handleYesClick() {
+            document.getElementById('main-content').innerHTML = `
+                <h1 style="font-size: 3rem;">Hehehe, I knew it! ❤️</h1>
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmFpam9mcWxpY3p3MHBiMnhhM2VlemF5aWdnYmNlY2hobnJuMHAxaSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qKQQUKSSbWBkO2V3KX/giphy.gif" alt="Success" width="300">
+            `;
+            // Remove all the extra background buttons
+            document.querySelectorAll('.fake-yes').forEach(btn => btn.remove());
+        }
+
+        yesBtn.addEventListener('click', handleYesClick);
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/alisonbrown/Documents/DSA/CDLab/output/Practical2'
+relocations:     []
+...
